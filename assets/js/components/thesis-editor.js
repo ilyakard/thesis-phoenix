@@ -16,6 +16,7 @@ import TrayNotifications from './tray_notifications'
 import HtmlEditor from '../content_types/html_editor'
 import RawHtmlEditor from '../content_types/raw_html_editor'
 import ImageEditor from '../content_types/image_editor'
+import VideoEditor from '../content_types/video_editor'
 import TextEditor from '../content_types/text_editor'
 
 class ThesisEditor extends React.Component {
@@ -77,6 +78,12 @@ class ThesisEditor extends React.Component {
       ospryPublicKey: this.props.external.ospryPublicKey,
       fileUploader: this.props.external.fileUploader,
       openTray: this.openTray('image-url'),
+      closeTray: this.trayCanceled
+    })
+
+    this.videoEditor = new VideoEditor({
+      fileUploader: this.props.external.fileUploader,
+      openTray: this.openTray('video-url'),
       closeTray: this.trayCanceled
     })
 
@@ -223,6 +230,7 @@ class ThesisEditor extends React.Component {
     this.htmlEditor.enable()
     this.rawHtmlEditor.enable()
     this.imageEditor.enable()
+    this.videoEditor.enable()
     this.textEditor.enable()
   }
 
@@ -230,6 +238,7 @@ class ThesisEditor extends React.Component {
     this.htmlEditor.disable()
     this.rawHtmlEditor.disable()
     this.imageEditor.disable()
+    this.videoEditor.disable()
     this.textEditor.disable()
   }
 
@@ -267,6 +276,8 @@ class ThesisEditor extends React.Component {
       case 'image':
       case 'background_image':
         return this.imageEditor.getContent(ed)
+      case 'video':
+        return this.videoEditor.getContent(ed)
       case 'text':
         return this.textEditor.content(ed)
       case 'html':
@@ -283,6 +294,8 @@ class ThesisEditor extends React.Component {
       case 'image':
       case 'background_image':
         return this.imageEditor.uploadAndSet(content, page, () => { this.updateImportedContentCompletedCount() })
+      case 'video':
+        return this.videoEditor.uploadAndSet(content, page, () => { this.updateImportedContentCompletedCount() })
       case 'text':
         this.updateImportedContentCompletedCount()
         return this.textEditor.set(content.name, content)
@@ -449,6 +462,8 @@ class ThesisEditor extends React.Component {
         onSubmit={this.settingsTraySubmitted} />
     } else if (this.state.trayType === 'image-url') {
       return this.imageEditor.tray(this.state.trayData)
+    } else if (this.state.trayType === 'video-url') {
+      return this.videoEditor.tray(this.state.trayData)
     } else if (this.state.trayType === 'raw-html') {
       return this.rawHtmlEditor.tray(this.state.trayData)
     } else if (this.state.trayType === 'import-export-restore') {

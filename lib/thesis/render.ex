@@ -41,6 +41,14 @@ defmodule Thesis.Render do
     """)
   end
 
+  def render_editable(%{content_type: "video"} = page_content, opts) do
+    raw("""
+      <div #{wrapper_attributes(page_content, opts)}>
+        <video src="#{escape_entities(page_content.content)}" #{video_attributes(page_content)}>
+      </div>
+    """)
+  end
+  
   def render_editable(%{content_type: "raw_html"} = page_content, opts) do
     raw("""
       <div #{wrapper_attributes(page_content, opts)}>
@@ -82,6 +90,13 @@ defmodule Thesis.Render do
     |> Enum.join(" ")
   end
 
+  defp video_attributes(page_content) do
+    page_content
+    |> PageContent.meta_attributes
+    |> Enum.map(fn ({k, v}) -> "#{k}=\"#{escape_entities(v)}\"" end)
+    |> Enum.join(" ")
+  end
+  
   defp background_image_string(content) do
     "background-image: url(#{escape_entities(content)})"
   end

@@ -51,6 +51,17 @@ defmodule Thesis.ApiController do
 
     do_upload_file(conn, file)
   end
+  def import_file(conn, %{"video_url" => ""}), do: json conn, %{path: ""}
+  def import_file(conn, %{"video_url" => video_url}) do
+    video = HTTPoison.get!(video_url)
+    file = %{
+      data: video.body,
+      filename: "imported-" <> Utilities.parameterize(video_url),
+      content_type: (video.headers |> Enum.into(%{}) |> Map.new(fn {k, v} -> {String.downcase(k), v} end))["content-type"]
+    }
+
+    do_upload_file(conn, file)
+  end
   def import_file(conn, _), do: json conn, %{path: ""}
 
   def upload_file(conn, %{"file" => ""}), do: json conn, %{path: ""}
