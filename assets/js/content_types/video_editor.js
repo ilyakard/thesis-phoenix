@@ -37,7 +37,7 @@ class VideoEditor {
     const meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'))
     let url = ''
 
-    url = e.currentTarget.querySelector('video').getAttribute('src')
+    url = e.currentTarget.querySelector('video source').getAttribute('src')
 
     this.openTray({ contentId: id, url: url, alt: meta.alt })
   }
@@ -57,7 +57,7 @@ class VideoEditor {
 
   getContent (ed) {
     const type = ed.getAttribute('data-thesis-content-type')
-    return ed.querySelector('video').getAttribute('src')
+    return ed.querySelector('video source').getAttribute('src')
   }
 
   uploadAndSet (data, page, callback) {
@@ -94,9 +94,9 @@ class VideoEditor {
     editor.setAttribute('data-thesis-content-meta', meta)
 
     const type = editor.getAttribute('data-thesis-content-type')
-    const img = editor.querySelector('video')
-    img.src = data.url
-    img.alt = JSON.parse(meta).alt
+    const source = editor.querySelector('video source')
+    source.src = data.url
+    source.alt = JSON.parse(meta).alt
   }
 
   determineVideoUrl (video, origin) {
