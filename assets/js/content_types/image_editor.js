@@ -72,7 +72,7 @@ class ImageEditor {
 
   uploadAndSet (data, page, callback) {
     const image = this.determineImageUrl(data.content, page.origin)
-    const editor = document.querySelector(`[data-thesis-content-id="${data.name}"`)
+    const editor = document.querySelector(`[data-thesis-content-id="${data.name}"]`)
 
     if (!image || !editor) {
       callback(); return
@@ -92,7 +92,7 @@ class ImageEditor {
   }
 
   set (name, data, meta = null) {
-    const editor = document.querySelector(`[data-thesis-content-id="${name}"`)
+    const editor = document.querySelector(`[data-thesis-content-id="${name}"]`)
     editor.classList.add('modified')
 
     if (!meta) {

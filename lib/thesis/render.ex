@@ -44,7 +44,9 @@ defmodule Thesis.Render do
   def render_editable(%{content_type: "video"} = page_content, opts) do
     raw("""
       <div #{wrapper_attributes(page_content, opts)}>
-        <video src="#{escape_entities(page_content.content)}" #{video_attributes(page_content)}>
+        <video #{video_attributes(page_content)}>
+          <source src="#{escape_entities(page_content.content)}">
+        </video>
       </div>
     """)
   end
