@@ -69,10 +69,6 @@ class VideoTray extends React.Component {
     .catch((error) => { window.alert(error) })
   }
 
-  previewVideoStyle () {
-    return {backgroundvideo: `url(${this.state.url})`}
-  }
-
   renderForm () {
     return this.renderUploaderForm()
   }
@@ -99,7 +95,9 @@ class VideoTray extends React.Component {
             Video URL
           </div>
           <div className='thesis-field-row'>
-            <div className='tray-video-preview' style={this.previewVideoStyle()} />
+            <div className='tray-video-preview'>
+              <video src={this.state.url} controls></video>
+            </div>
           </div>
           <div className='thesis-field-row'>
             <label>
